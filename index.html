@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <style>
 body {
-    font-family: arial;
-    text-align: center;
-    margin-top: 50px;
-    display: block;
+	font-family: arial;
+	text-align: center;
+	margin-top: 50px;
+	display:block;
 }
 input{
-    font-size: 20px;
-    padding: 14px;
-    margin: 14px;
-    width: 60%;
-    margin: 0 auto;
-    display: block;
-    border: 1px solid violet;
-    border-radius: 14px;
+	font-size: 20px;
+	padding: 14px;
+	margin: 14px;
+	width: 60%;
+	margin: 0 auto;
+	display:block;
+	border: 1px solid blue;
+	border-radius: 8px;
 }
 button {
-    display: block;
-    margin: 20px auto 0;
-    font-size:20px;
-    padding: 14px;
-    background-color: pink;
-    }
-
+	display:block;
+	margin: 20px auto 0;
+	font-size: 20px;
+	padding: 14px;
+	background-color: lightblue;
+}
 button:hover {
-    color: #fff;
-    background-color: violet;
+	color: #fff;
+	background-color: blue;
 }
 #status {
-    font-size: 20px;
+	font-size: 20px;
 }
 </style>
 </head>
@@ -41,14 +41,12 @@ button:hover {
 <input type="email" id="email" placeholder="Insira email" required>
 <button onclick="getLocation()">Enviar Localização</button>
 <p id="status">Clique no botão para enviar dados.</p>
-
 <script>
 // Coordenadas do local alvo (latitude e longitude)
 const targetLatitude = 42.03188; // Latitude da Loja
 const targetLongitude = -8.63318; // Longitude da Loja
 // URL do Webhook do Make
-const makeWebhookURL = "https://hook.eu1.make.com/oiqift2tx815n4uzhcrbatcgeh39fo8x"; // Substituir pelo nosso
-Webhook do Make
+const makeWebhookURL = "https://hook.eu1.make.com/oiqift2tx815n4uzhcrbatcgeh39fo8x"; // Substituir pelo nosso Webhook do Make
 // Função para capturar a localização do utilizador
 function getLocation() {
 const email = document.getElementById("email").value;
@@ -72,11 +70,12 @@ const userLongitude = position.coords.longitude;
 // Calcular a distância entre o utilizador e a loja
 const distance = calculateDistance(userLatitude, userLongitude, targetLatitude, targetLongitude);
 // Atualizar o status para informar que os dados foram enviados
-document.getElementById("status").innerHTML = `Distância calculada: ${distance.toFixed(2)} km.
-Enviando dados...`;
+document.getElementById("status").innerHTML = `Distância calculada: ${distance.toFixed(2)} km. Enviando dados...`;
 // Dados a serem enviados para o Make
 const data = {
 email: email,
+userlat: userLatitude,
+userlong: userLongitude,
 distance: distance.toFixed(2), // Enviar a distância com 2 casas decimais
 timestamp: new Date().toLocaleString()
 };
@@ -114,10 +113,10 @@ return R * c; // Distância em Km
 function showError(error) {
 switch (error.code) {
 case error.PERMISSION_DENIED:
-document.getElementById("status").innerHTML = "O Utilizador negou a solicitação de geolocalização."
+document.getElementById("status").innerHTML = "O Utilizador negou a solicitação de geolocalização.";
 break;
 case error.POSITION_UNAVAILABLE:
-document.getElementById("status").innerHTML = "Informações de localização não estão disponíveis."
+document.getElementById("status").innerHTML = "Informações de localização não estão disponíveis.";
 break;
 case error.TIMEOUT:
 document.getElementById("status").innerHTML = "A solicitação expirou.";
